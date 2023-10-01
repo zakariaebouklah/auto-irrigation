@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  nginx:
+    container_name: nginx
+    build:
+      dockerfile: ./nginx/Dockerfile
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "80:80"
+  php:
+    container_name: php
+    build:
+      dockerfile: ./docker/Dockerfile
+    volumes:
+      - ./:/var/www/html
+      - /var/www/html/var
+      - /var/www/html/vendor
+    ports:
+      - "9000:9000"
+
+  mysql:
+    image: mariadb
+    restart: unless-stopped
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: irrigation_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    cap_add:
+      - SYS_NICE
+
+  py-microservice:
+    container_name: python
+    build:
+      context: ../pfa-fastAPI
+    ports:
+      - "8080:8080"
+    env_file:
+      - ../pfa-fastAPI/.env
+
+volumes:
+  mysql_data:

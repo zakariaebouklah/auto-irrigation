@@ -1,0 +1,5 @@
+__pycache__
+.env
+tests.ipynb
+Pipfile
+Pipfile.lock

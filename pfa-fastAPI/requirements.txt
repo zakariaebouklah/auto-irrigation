@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pandas
+numpy
+tabulate
+eto
+requests
+python-dotenv
+openpyxl
+mysql-connector-python
